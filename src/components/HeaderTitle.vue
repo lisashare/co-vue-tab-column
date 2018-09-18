@@ -1,6 +1,6 @@
 <template>
     <div class="header-title">
-        <header class="search-header bc line-bottom">
+        <header class="search-header bc line-bottom" id="header">
             <i class="icon-left" v-on:click = "$router.go(-1)"></i>
             <h2 class="ellipsis">{{title}}</h2>
             <span class="header-contact-customer" @click="isTelShow=!isTelShow"></span>

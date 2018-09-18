@@ -48,19 +48,20 @@
         <h2 class="font-w6">项目优势</h2>
     </div>
     <!-- 内容 -->
-    <div class="content" id="content">
-
-        <!--  :class="contentFixed == true ? 'isFixed' :''" -->
-       <div class="tab-nav border-e5" id="tab" :class="tabNavFixed == true ? 'isFixed' :''">
-            <swiper :options="tabNavOption" ref="mySwiperScroll">
+    <div class="content" id="tab">
+       <div class="tab-nav border-e5">
+            <swiper :options="tabNavOption" ref="mySwiperScroll" id="tabnav" :class="tabNavFixed? 'isFixed' :''">
                 <swiper-slide v-for = "(slide, index) in tabNavs" :key = "index">
-                    <span class="tab-item" :class="[slide.active ?' active':'']">{{slide.title}}</span>
+                    <div class="tab-item">
+                        <span :class="[slide.active ?' active':'']">{{slide.title}}</span>
+                    </div>
+                    
                 </swiper-slide>
             </swiper>
         </div>
         <div>
             <!-- 品牌故事 -->
-            <div class="brand-story bg-f4" id="certify">
+            <div class="brand-story bg-f4 section" id="certify">
                 <div class="title">
                     <h3>品牌故事</h3>
                     <p class="img-modify"></p>
@@ -78,7 +79,7 @@
                 </swiper>
             </div>
             <!-- 特色产品 -->
-            <div class="featured-products">
+            <div class="featured-products section">
                 <div class="title">
                     <h3>特色产品</h3>
                     <p class="img-modify"></p>
@@ -96,7 +97,7 @@
                 </swiper>
             </div>
             <!-- 品牌形象 -->
-            <div class="brand-image bg-f4">
+            <div class="brand-image bg-f4 section">
                 <div class="title">
                     <h3>品牌形象</h3>
                     <p class="img-modify"></p>
@@ -114,7 +115,7 @@
                 </swiper>
             </div>
             <!-- 运营优势 -->
-            <div class="operational-advantages">
+            <div class="operational-advantages section">
                 <div class="title">
                     <h3>运营优势</h3>
                     <p class="img-modify"></p>
@@ -132,7 +133,7 @@
                 </swiper>
             </div>
             <!-- 大众口碑 -->
-            <div class="public-praise bg-f4">
+            <div class="public-praise bg-f4 section">
                 <div class="title">
                     <h3>大众口碑</h3>
                     <p class="img-modify"></p>
@@ -150,7 +151,7 @@
                 </swiper>
             </div>
             <!-- 严选承诺 -->
-            <div class="commitment">
+            <div class="commitment section">
                 <div class="title">
                     <h3>严选承诺</h3>
                     <p class="img-modify"></p>
@@ -267,21 +268,15 @@ export default {
                 }
             },
             tabNavOption:{
+                resistanceRatio:0,  // 回弹距离
                 observeParents: true,
                 observer: true,
-                // cancelable:false,
                 freeMode: true,
                 freeModeMomentumRatio: 0.5,
                 slidesPerView: 'auto',
-                // slideToClickedSlide: true,
                 on:{
                     tap: function(e){
- 
-                        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-                        // console.log(scrollTop)
-                        var offsetTop = document.querySelector('#content').offsetTop - 44
-                        window.scrollTo(0,offsetTop)
-
+            
                         var swiperWidth = self._self.$refs.mySwiperScroll.$el.clientWidth
                        
                         var maxTranslate = this.maxTranslate();
@@ -298,8 +293,7 @@ export default {
                         var slideLeft = slide.offsetLeft
                         var slideWidth = slide.clientWidth
                         var slideCenter = slideLeft + slideWidth / 2  // 被点击slide的中心点
-                        // console.log(slide)
-                        // this.setTranslate(300)
+           
                         if (slideCenter < swiperWidth / 2) {
                             this.setTranslate(0)
                         } 
@@ -309,9 +303,57 @@ export default {
                             var nowTlanslate = slideCenter - swiperWidth / 2
                             this.setTranslate(-nowTlanslate) 
                         }
+
+                        // 点击导航，控制content内部页面offsetTop
+                        // 获取内容到顶部的距离
+                        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+
+                        var offsetTop = document.querySelector('#tab').offsetTop - document.querySelector('#header').clientHeight
+                        if (scrollTop > offsetTop) {  
+                            this.tabNavFixed = true
+                        } else {
+                            this.tabNavFixed = false
+                        }
+                      
+                        var top = document.querySelector('#tabnav').clientHeight + document.querySelector('#header').clientHeight;
+     
+                        var louti = document.querySelectorAll('.section')[this.clickedIndex].offsetTop - top;
+                        
+                        window.scrollTo({ 
+                            top: louti, 
+                            behavior: "smooth" 
+                        });
                     },
+                    slide: function(){
+                        var that = self._self.$refs.mySwiperScroll.swiper
+                        that.clickedIndex = self.index
+
+                        var swiperWidth = self._self.$refs.mySwiperScroll.$el.clientWidth
+                        var maxTranslate = that.maxTranslate();
+                
+                        var maxWidth = -maxTranslate + swiperWidth / 2
+                        var slide = self._self.$refs.mySwiperScroll.swiper.slides[that.clickedIndex]
+
+                        self.tabNavs.forEach(item=>{
+                            return item.active = false
+                        })
+                        self.tabNavs[that.clickedIndex].active = true
+
+                        var slideLeft = slide.offsetLeft
+                        var slideWidth = slide.clientWidth
+                        var slideCenter = slideLeft + slideWidth / 2  // 被点击slide的中心点
+
+                        if (slideCenter < swiperWidth / 2) {
+                            that.setTranslate(0)
+                        } 
+                        else if (slideCenter > maxWidth) {
+                            that.setTranslate(maxTranslate)
+                        } else {
+                            var nowTlanslate = slideCenter - swiperWidth / 2
+                            that.setTranslate(-nowTlanslate) 
+                        }
+                    }
                 },
-      
             },
             title:'详情页',
             tabNavs:[
@@ -337,28 +379,53 @@ export default {
                 {imgUrl:'http://static.kuaidao.cn/brand/QxrmAMd7XP.jpg',p:'手撕鸡腿肉，软糯鲜嫩，量大料足，可口美味'},
                 {imgUrl:'http://static.kuaidao.cn/brand/bhEXjziQQD.jpg',p:'特色产品，手撕鸡腿肉，软糯鲜嫩，量大料足，可口美味'},
                 {imgUrl:'http://static.kuaidao.cn/brand/BAHkmMSpze.jpg',p:'品牌形象，手撕鸡腿肉，软糯鲜嫩，量大料足，可口美味'},
-            ]         
+            ],
+            topAry:[],
+            index: 0    
         }
     },
     created(){
         // this.initSwiper()
     },
     methods:{
+        getOffset(){ // 将楼梯层距离顶部高度，存放在数组中
+            // var topAry = []
+            var oHs = document.querySelectorAll('.section')
+            for (var i = 0; i < oHs.length; i++) {
+                var txtTop = oHs[i].offsetTop;
+                this.topAry.push(txtTop);
+            }
+            // console.log(this.topAry)
+        },
        // 监听滚动导航吸顶
         watchScroll () {
+            // console.log(this.tabNavOption)
+
             var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+            
             // console.log(scrollTop)
-            var offsetTop = document.querySelector('#tab').offsetTop - 44
-            if (scrollTop > offsetTop) {
+            var offsetTop = document.querySelector('#tab').offsetTop - document.querySelector('#header').clientHeight
+            var value = scrollTop + document.querySelector('#tabnav').clientHeight + document.querySelector('#header').clientHeight;
+            for (var i = 0; i < this.topAry.length; i++) {
+                if( value >= this.topAry[i]){
+                    if(this.topAry[i+1] > scrollTop){
+                        this.index = i
+                    }
+                }
+            }
+            this.tabNavOption.on.slide()
+            // console.log(this.index)
+            if (scrollTop > offsetTop) {  
                 this.tabNavFixed = true
             } else {
                 this.tabNavFixed = false
             }
         }
-          
     },
     mounted () { // 监听滚动条
         window.addEventListener('scroll', this.watchScroll)
+        // console.log(this.tabNavOption.on.tap)
+        this.getOffset()
     },
     destroyed () { // 组件切换的时候，销毁监听
         window.removeEventListener('scroll', this.watchScroll)
@@ -401,9 +468,6 @@ export default {
             justify-content: space-between;
             flex-wrap:wrap;
         }
-        // li:nth-child(even){
-        //     text-align: right;
-        // }
     }
 }
 // 秒懂品牌 
@@ -423,7 +487,7 @@ export default {
     }
 }
 // 项目优势内容
-.content{
+#tabnav{
     background: #ffffff;
 }
 .border-e5{
@@ -487,29 +551,36 @@ export default {
     top:88/@rem;
     left: 0;
     right: 0;
-    z-index:3;
+    z-index:103;
 }
 .active{
     color:#30A6AE;
-    border-bottom: 8/@rem solid #2ca1ab;
+    border-bottom: 8/@rem solid #2ca1ab!important;
     // #41bcbc  
 }
 .tab-nav{
-    position: relative;
+    // position: relative;
     width: 100%; 
     height: 98/@rem;
     line-height: 98/@rem;
-    background: #ffffff;
     overflow: hidden; 
     font-size: 30/@rem;
+    background: #ffffff;
     .swiper-slide{
         width: 210/@rem!important;
     }
     .tab-item{
         display: inline-block;
-        width: 200/@rem;
+        width: 210/@rem;
         text-align: center;
-        // padding-right: 56/@rem;
+        background: #ffffff;
+        box-sizing: border-box;
+        span{
+            box-sizing: border-box;
+            display: inline-block;
+            line-height: 84/@rem;
+            border-bottom: 8/@rem solid #ffffff;
+        }
     }
     .tab-item:first-child{
     //    padding-left: 48/@rem;
@@ -539,7 +610,4 @@ export default {
   background-repeat:no-repeat;
   overflow: hidden;
 }
-
 </style>
-
-
