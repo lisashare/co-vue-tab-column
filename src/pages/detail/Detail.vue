@@ -2,32 +2,48 @@
     <div class="detail page-top">
         <header-title :title="title"></header-title>    
         <!-- 顶部banner -->
-        <swiper :options="swiperOption" ref="mySwiper-p1" class="brandImg img-bg">
-			<swiper-slide v-for = "(slide, index) in brandImages" :key = "index">
-				<img :src="slide.imgUrl" width="100%">
-			</swiper-slide>
-            <div class="swiper-pagination swiper-p1" slot="pagination"></div>
-		</swiper>
+        <div class="banner-swiper">
+            <swiper :options="swiperOption" ref="mySwiper-p1" class="brandImg img-bg">
+                <swiper-slide v-for = "(slide, index) in brandImages" :key = "index">
+                    <img :src="slide.imgUrl" width="100%">
+                </swiper-slide>
+                <div class="swiper-pagination swiper-p1" slot="pagination"></div>
+            </swiper>
+            <div class="icon-num">
+                <span class="num-tip">
+                    <i></i>9千+
+                </span>
+                <span class="num-tip">
+                    <i></i>89
+                </span>
+            </div>
+        </div>
         <!-- 品牌介绍 start -->
         <div class="brand-introduce">
-            <div class="name over bc">
+            <!-- <div class="name over bc"> -->
                 <h1 class="ellipsis font-w6">谷子帝五谷煎饼</h1>
-                <!-- <div class="comments">
-                    <div class="concern"> -->
-                        <!-- <i class="img-bg"><img width="100%" src="/static/images/opportunity/branddetail/icon_attention_normal.png" alt=""></i> -->
-                        <!-- <span class="concern-plus">关注</span>
+
+                <div class="concern-tip">
+                    <div class="concern" @click="mineAttention">
+                        <div v-show="!attention">
+                            <i class="img-bg"><img width="100%" src="/static/images/detail/icon_follow@2x.png" alt=""></i> 
+                            <span class="concern-plus">关注</span>
+                        </div>
+                        <div v-show="attention">
+                            <i class="img-bg"><img width="100%" src="/static/images/detail/icon_pressed_follow@2x.png" alt=""></i> 
+                            <span class="concern-plus">已关注</span>
+                        </div>
                     </div>
-                    <div class="concern"> -->
-                        <!-- <i class="img-bg"><img width="100%" src="/static/images/opportunity/branddetail/icon_attention_normal.png" alt=""></i> -->
-                        <!-- <span class="concern-plus">已关注</span>
-                    </div> -->
                     <!-- 跳转到认证页面 -->
-                    <!-- <span class="authentication">
-                        <i class="img-bg"></i>
-                        <span class="authenticated">已认证</span>
-                    </span> 
-                </div>-->
-            </div>
+                    <router-link to="/images" tap="span" class="authentication">
+                    <!-- <span class="authentication" @click="authentication"> -->
+                        <img src="/static/images/detail/icon_yirenzheng@2x.png" alt="">
+                        <!-- <i class="img-bg"></i>
+                        <span class="authenticated">已认证</span> -->
+                    <!-- </span>  -->
+                    </router-link>
+                </div>
+            <!-- </div> -->
             <p class="dl">用良心品质，为顾客提供优质服务</p>
             <div class="investment-info">
                 <h2>北京王大百味餐饮管理有限公司</h2>
@@ -40,9 +56,9 @@
         <div class="line"></div>
         <div class="know-movie">
             <h2 class="font-w6">秒懂品牌</h2>
-            <div class="swiper-movie">
+            <!-- <div class="swiper-movie"> -->
                 <banner-video></banner-video>
-            </div>
+            <!-- </div> -->
         </div>
         <div class="line"></div> 
     <!-- 大标题 -->
@@ -57,18 +73,18 @@
                     <div class="tab-item">
                         <span :class="[slide.active ?' active':'']">{{slide.title}}</span>
                     </div>
-                    
                 </swiper-slide>
             </swiper>
         </div>
-        <div>
+        <div class="list">
             <!-- 品牌故事 -->
             <div class="brand-story bg-f4 section" id="certify">
                 <div class="title">
                     <h3>品牌故事</h3>
                     <p class="img-modify"></p>
                 </div>
-                <swiper :options="brandStoryOption" ref="mySwiper-p2" class="img-bg">
+                <banner-image :slides="brandStory"></banner-image>
+                <!-- <swiper :options="brandStoryOption" ref="mySwiper-p2" class="img-bg">
                     <swiper-slide v-for = "(slide, index) in brandStory" :key = "index">
                         <div class="image-wrap">
                             <img :src="slide.imgUrl" width="100%">
@@ -78,7 +94,7 @@
                             </div>
                         </div>
                     </swiper-slide>
-                </swiper>
+                </swiper> -->
             </div>
             <!-- 特色产品 -->
             <div class="featured-products section">
@@ -86,7 +102,8 @@
                     <h3>特色产品</h3>
                     <p class="img-modify"></p>
                 </div>
-                <swiper :options="featuredProductsOption" ref="mySwiper-p2" class="img-bg">
+                <banner-image :slides="featuredProducts"></banner-image>
+                <!-- <swiper :options="featuredProductsOption" ref="mySwiper-p2" class="img-bg">
                     <swiper-slide v-for = "(slide, index) in featuredProducts" :key = "index">
                         <div class="image-wrap">
                             <img :src="slide.imgUrl" width="100%">
@@ -96,7 +113,7 @@
                             </div>
                         </div>
                     </swiper-slide>
-                </swiper>
+                </swiper> -->
             </div>
             <!-- 品牌形象 -->
             <div class="brand-image bg-f4 section">
@@ -104,7 +121,8 @@
                     <h3>品牌形象</h3>
                     <p class="img-modify"></p>
                 </div>
-                <swiper :options="brandStoryOption" ref="mySwiper-p2" class="img-bg">
+                <banner-image :slides="featuredProducts"></banner-image>
+                <!-- <swiper :options="brandStoryOption" ref="mySwiper-p2" class="img-bg">
                     <swiper-slide v-for = "(slide, index) in brandStory" :key = "index">
                         <div class="image-wrap">
                             <img :src="slide.imgUrl" width="100%">
@@ -114,7 +132,7 @@
                             </div>
                         </div>
                     </swiper-slide>
-                </swiper>
+                </swiper> -->
             </div>
             <!-- 运营优势 -->
             <div class="operational-advantages section">
@@ -122,7 +140,8 @@
                     <h3>运营优势</h3>
                     <p class="img-modify"></p>
                 </div>
-                <swiper :options="brandStoryOption" ref="mySwiper-p2" class="img-bg">
+                <banner-image :slides="featuredProducts"></banner-image>
+                <!-- <swiper :options="brandStoryOption" ref="mySwiper-p2" class="img-bg">
                     <swiper-slide v-for = "(slide, index) in brandStory" :key = "index">
                         <div class="image-wrap">
                             <img :src="slide.imgUrl" width="100%">
@@ -132,7 +151,7 @@
                             </div>
                         </div>
                     </swiper-slide>
-                </swiper>
+                </swiper> -->
             </div>
             <!-- 大众口碑 -->
             <div class="public-praise bg-f4 section">
@@ -140,7 +159,8 @@
                     <h3>大众口碑</h3>
                     <p class="img-modify"></p>
                 </div>
-                <swiper :options="brandStoryOption" ref="mySwiper-p2" class="img-bg">
+                <banner-image :slides="featuredProducts"></banner-image>
+                <!-- <swiper :options="brandStoryOption" ref="mySwiper-p2" class="img-bg">
                     <swiper-slide v-for = "(slide, index) in brandStory" :key = "index">
                         <div class="image-wrap">
                             <img :src="slide.imgUrl" width="100%">
@@ -150,7 +170,7 @@
                             </div>
                         </div>
                     </swiper-slide>
-                </swiper>
+                </swiper> -->
             </div>
             <!-- 严选承诺 -->
             <div class="commit section">
@@ -173,114 +193,118 @@
             </div>
             <div class="line"></div>
             <!-- 创始人问答 -->
-            <div class="founder">
-                <h2 class="founder-title">
-                    <span class="icon-hot"><img src="/static/images/detail/HOT@2x.png"/></span>
-                    <span>创始人问答</span>
-                    <span class="question"><img src="/static/images/detail/Btn_quiz@2x.png"/></span>
-                </h2>
+            <div class="section">
+                <div class="founder">
+                    <h2 class="founder-title">
+                        <span class="icon-hot"><img src="/static/images/detail/HOT@2x.png"/></span>
+                        <span>创始人问答</span>
+                        <span class="question"><img src="/static/images/detail/Btn_quiz@2x.png"/></span>
+                    </h2>
 
-                <div class="explain">
-                    <div class="information">
-                        <div class="avator">
-                            <img src="/static/images/detail/icon_bao1@2x.png">
+                    <div class="explain">
+                        <div class="information">
+                            <div class="avator">
+                                <img src="/static/images/detail/icon_bao1@2x.png">
+                            </div>
+                            <h3>王志会<span>谷子帝创始人</span></h3>
+                            <div class="label">
+                                <span class="founder-tag">餐饮大师</span>
+                            </div>
                         </div>
-                        <h3>王志会<span>谷子帝创始人</span></h3>
-                        <div class="label">
-                            <span class="founder-tag">餐饮大师</span>
-                        </div>
+                        <div class="synopsis">
+                            <h3>给生活一个最健康的交代</h3>
+                            <p>CSS 渐变 是在 CSS3 Image Module 中新增加的 类型. 使用 CSS 渐变可以在两种颜色间制造出平滑的渐变效果. 用它代替图片，可以加快页面的载入时间、减小带宽占用。同时，因为渐变是由浏览器直接生成的，它在页面缩放时的效果比图片更好，因此你可以更加灵活、便捷的调整页面布局。</p>
+                        </div> 
                     </div>
-                    <div class="synopsis">
-                        <h3>给生活一个最健康的交代</h3>
-                        <p>CSS 渐变 是在 CSS3 Image Module 中新增加的 类型. 使用 CSS 渐变可以在两种颜色间制造出平滑的渐变效果. 用它代替图片，可以加快页面的载入时间、减小带宽占用。同时，因为渐变是由浏览器直接生成的，它在页面缩放时的效果比图片更好，因此你可以更加灵活、便捷的调整页面布局。</p>
-                    </div> 
                 </div>
-            </div>
-        </div> 
- 
-            <div class="answerComent">
-                <div class="answername">
-                    <dl class="answerinfo over">
-                        <dt class="avatar">
-                            <div class="avatar-box img-bg over">
-                                <img width="100%" src="/static/images/detail/icon_ask@2x.png" alt="">
-                            </div>
-                        </dt>
-                        <dd class="avatarname">
-                            <p class="avatarname-p font-w7">
-                                <span>王女士</span>
-                                <i class="wen"><img width="100%" height="100%" src="/static/images/detail/icon_ask@2x.png" alt=""></i>
-                            </p>
-                            <p class="answerwen">渐变可以在两种颜色间制造出平滑的渐变效果. 用它</p>
-                            <div class="answerReturn position-re">
-        
-                                <div class="riangle-up"></div>
-                                <dl class="answerfounder over">
-                                    <dt class="avatar">
-                                        <div class="avatar-box img-bg over">
-                                            <img width="100%" src="/static/images/detail/icon_ask@2x.png" alt="">
-                                        </div>
-                                    </dt>
-                                    <dd>
-                                        <p class="avatarname-p font-w7">
-                                            <span class="founderpersonal">创始人<i class="foundername">王志会</i></span><i class="da"><img width="100%" height="100%" src="/static/images/detail/icon_answer@2x.png" alt=""></i>
-                                        </p>
-                                        <p class="hello">中新增加的 类型. 使用 CSS 渐变可以在两种颜色间制造出平滑的渐变效果. 用它代替图片，可以加快页面的载入时间、减小带宽占用。同时，因为渐变是由浏览器直接生成的，它在页面缩放时的效</p>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </dd>
-                    </dl>
+                <div class="answerComent">
+                    <div class="answername">
+                        <dl class="answerinfo over">
+                            <dt class="avatar">
+                                <div class="avatar-box img-bg over">
+                                    <img width="100%" src="/static/images/detail/icon_ask@2x.png" alt="">
+                                </div>
+                            </dt>
+                            <dd class="avatarname">
+                                <p class="avatarname-p font-w7">
+                                    <span>王女士</span>
+                                    <i class="wen"><img width="100%" height="100%" src="/static/images/detail/icon_ask@2x.png" alt=""></i>
+                                </p>
+                                <p class="answerwen">渐变可以在两种颜色间制造出平滑的渐变效果. 用它</p>
+                                <div class="answerReturn position-re">
+            
+                                    <div class="riangle-up"></div>
+                                    <dl class="answerfounder over">
+                                        <dt class="avatar">
+                                            <div class="avatar-box img-bg over">
+                                                <img width="100%" src="/static/images/detail/icon_ask@2x.png" alt="">
+                                            </div>
+                                        </dt>
+                                        <dd>
+                                            <p class="avatarname-p font-w7">
+                                                <span class="founderpersonal">创始人<i class="foundername">王志会</i></span><i class="da"><img width="100%" height="100%" src="/static/images/detail/icon_answer@2x.png" alt=""></i>
+                                            </p>
+                                            <p class="hello">中新增加的 类型. 使用 CSS 渐变可以在两种颜色间制造出平滑的渐变效果. 用它代替图片，可以加快页面的载入时间、减小带宽占用。同时，因为渐变是由浏览器直接生成的，它在页面缩放时的效</p>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="answername">
+                        <dl class="answerinfo over">
+                            <dt class="avatar">
+                                <div class="avatar-box img-bg over">
+                                    <img width="100%" src="/static/images/detail/icon_ask@2x.png" alt="">
+                                </div>
+                            </dt>
+                            <dd class="avatarname">
+                                <p class="avatarname-p position-re font-w7">
+                                    <span>王女士</span>
+                                    <i class="wen"><img width="100%" height="100%" src="/static/images/detail/icon_ask@2x.png" alt=""></i>
+                                </p>
+                                <p class="answerwen"> 类型. 使用 CSS 渐变可以在两种颜色间制造出平滑的渐变效果. 用它</p>
+                                <div class="answerReturn position-re">
+            
+                                    <div class="riangle-up"></div>
+                                    <dl class="answerfounder over">
+                                        <dt class="avatar">
+                                            <div class="avatar-box img-bg over">
+                                                <img width="100%" src="/static/images/detail/icon_ask@2x.png" alt="">
+                                            </div>
+                                        </dt>
+                                        <dd>
+                                            <p class="avatarname-p position-re font-w7">
+                                                <span class="founderpersonal">创始人<i class="foundername">王志会</i></span><i class="da"><img width="100%" height="100%" src="/static/images/detail/icon_answer@2x.png" alt=""></i>
+                                            </p>
+                                            <p class="hello">中新增加的 类型. 使用 CSS 渐变可以在两种颜色间制造出平滑的渐变效果. 用它代替图片，可以加快页面的载入时间、减小带宽占用。同时，因为渐变是由浏览器直接生成的，它在页面缩放时的效</p>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
                 </div>
-                <div class="answername">
-                    <dl class="answerinfo over">
-                        <dt class="avatar">
-                            <div class="avatar-box img-bg over">
-                                <img width="100%" src="/static/images/detail/icon_ask@2x.png" alt="">
-                            </div>
-                        </dt>
-                        <dd class="avatarname">
-                            <p class="avatarname-p position-re font-w7">
-                                <span>王女士</span>
-                                <i class="wen"><img width="100%" height="100%" src="/static/images/detail/icon_ask@2x.png" alt=""></i>
-                            </p>
-                            <p class="answerwen"> 类型. 使用 CSS 渐变可以在两种颜色间制造出平滑的渐变效果. 用它</p>
-                            <div class="answerReturn position-re">
-        
-                                <div class="riangle-up"></div>
-                                <dl class="answerfounder over">
-                                    <dt class="avatar">
-                                        <div class="avatar-box img-bg over">
-                                            <img width="100%" src="/static/images/detail/icon_ask@2x.png" alt="">
-                                        </div>
-                                    </dt>
-                                    <dd>
-                                        <p class="avatarname-p position-re font-w7">
-                                            <span class="founderpersonal">创始人<i class="foundername">王志会</i></span><i class="da"><img width="100%" height="100%" src="/static/images/detail/icon_answer@2x.png" alt=""></i>
-                                        </p>
-                                        <p class="hello">中新增加的 类型. 使用 CSS 渐变可以在两种颜色间制造出平滑的渐变效果. 用它代替图片，可以加快页面的载入时间、减小带宽占用。同时，因为渐变是由浏览器直接生成的，它在页面缩放时的效</p>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </dd>
-                    </dl>
-                </div>
+            </div> 
             </div>
         </div>
     </div>
 </template>
 <script>
 import HeaderTitle from '@/components/HeaderTitle.vue'
+import BannerImage from './BannerImage.vue'
 import BannerVideo from './BannerVideo.vue'
 export default {
     name: 'Detail',
-    components:{HeaderTitle,BannerVideo},
+    components:{HeaderTitle,BannerImage,BannerVideo},
     data(){
         var self = this;
         return{
+            attention: false,
+
             contentFixed: false,
             tabNavFixed: false,
-            swiperOption: {
+            swiperOption: {  // 顶部banner轮播
                 pagination: {
                 el: '.swiper-p1',
                 type: 'fraction',
@@ -294,7 +318,7 @@ export default {
                 observeParents: true,
                 observer: true,
             },
-            brandStoryOption: {
+            brandStoryOption: {  // 品牌故事轮播
                 loop: true,
                 observeParents: true,
                 observer: true,
@@ -332,7 +356,7 @@ export default {
                     }
                 }
             },
-            featuredProductsOption:{
+            featuredProductsOption:{ // 特色产品轮播
                 loop: true,
                 observeParents: true,
                 observer: true,
@@ -497,6 +521,35 @@ export default {
         // this.initSwiper()
     },
     methods:{
+        // 点击我的关注
+        mineAttention () {
+            this.attention = !this.attention
+            // 取cookie 判断是否登录，如果未登录跳转到登录页面，如果登录，请求，关注成功后，改变样式
+        // var accesstoken = utils.getCookie('accesstoken')
+        //     if (accesstoken) {
+        //         this.$router.push({name: 'login'})
+        //     } 
+        //     else {
+        //         if(this.attention){
+        //             //   type = 1
+        //             // this.$http('').then(res => {
+        //                     this.attention = false
+        //                     utils.mobileTip({
+        //                         "obj":Vue,
+        //                         "content":"取消关注"
+        //                     })
+        //             // })
+        //         }else{
+        //             // this.$http('').then(res => {
+        //                     this.attention = true
+        //                     utils.mobileTip({
+        //                         "obj":Vue,
+        //                         "content":"关注成功"
+        //                     })
+        //             // })
+        //         }
+        //     }
+        },
         getOffset(){ // 将楼梯层距离顶部高度，存放在数组中
             var oHs = document.querySelectorAll('.section')
             for (var i = 0; i < oHs.length; i++) {
@@ -514,11 +567,12 @@ export default {
                 if( value >= this.topAry[i]){
                     if(this.topAry[i+1] > scrollTop){
                         this.index = i
+                        continue
                     }
+                    this.index = i
                 }
             }
             this.tabNavOption.on.slide()
-            // console.log(this.index)
             if (scrollTop > offsetTop) {  
                 this.tabNavFixed = true
             } else {
@@ -553,6 +607,55 @@ export default {
     border-bottom: 8/@rem solid #2ca1ab!important;
     // #41bcbc  
 }
+.banner-swiper{
+    position: relative;
+    .icon-num{
+        position: absolute;
+        display: flex;
+        right: 72/@rem;
+        bottom: 16/@rem;
+        height: 52/@rem;
+        box-sizing: border-box;
+        z-index: 10;
+        span:first-child{
+            min-width: 124/@rem;
+            margin-right: 20/@rem;
+            padding-right: 12/@rem;
+            i{
+                width: 37/@rem;
+                height: 29/@rem;
+                background:url('/static/images/detail/icon_img@2x.png') no-repeat ;
+                background-size: 37/@rem 29/@rem;
+            }
+        }
+        span:last-child{
+            min-width: 110/@rem;
+            i{
+                width: 34/@rem;
+                height: 27/@rem;
+                background:url('/static/images/detail/icon_video@2x.png') no-repeat ;
+                background-size:41/@rem 27/@rem;
+            }
+        }
+        .num-tip{
+            display: flex;
+            align-items: center;
+            height: 52/@rem;
+            line-height: 52/@rem;
+            border: 1px solid #ffffff;
+            background:rgba(0, 0, 0, .5);
+            border-radius: 26/@rem;
+            font-size: 20/@rem;
+            color: #ffffff;
+            i{
+                display: block;
+                margin-left: 20/@rem;
+                margin-right: 10/@rem;
+            }
+
+        }
+    }
+}
 .tab-nav{
     width: 100%; 
     height: 98/@rem;
@@ -586,14 +689,46 @@ export default {
 }
 // 品牌简介
 .brand-introduce{
+    box-sizing: border-box; 
     padding: 32/@rem 48/@rem 60/@rem;
+    position: relative;
+    // .name{
+        .concern-tip{
+            position: absolute;
+            right: 0;
+            top: 20/@rem;
+            display: flex;
+            .concern>div{
+                height: 67/@rem;
+                font-size: 26/@rem;
+                color: #666666;
+                display: flex;
+                align-items: center;
+                i{
+                    display: inline-block;
+                    width: 40/@rem;
+                    height: 40/@rem;
+                    margin-right: 12/@rem;
+                }
+            }
+            .authentication{
+                width: 160/@rem;
+                height: 67/@rem;
+                margin-left: 20/@rem;
+                img{
+                    width: 100%;
+                }
+            }
+        }
+    // }
     h1{
         width: 400/@rem;
-        font-size: 44/@rem;
+        line-height: 44/@rem;
+        font-size: 44/@rem; 
         color: #333333;
     }
     p.dl{
-        margin-top: 5/@rem;
+        margin-top: 15/@rem;
         line-height: 38/@rem;
         font-size: 28/@rem;
         color: #666666;
@@ -602,7 +737,8 @@ export default {
         font-size: 32/@rem;
         color: #333333;
         h2{
-            margin-top: 50/@rem;
+            line-height: 32/@rem;
+            margin-top: 55/@rem;
             margin-bottom: 24/@rem;   
         }
         ul{
@@ -616,13 +752,14 @@ export default {
 .know-movie{
     .swiper-movie{
         height: 472/@rem;
-        // height: 365/@rem; 
     }
 }
 .item-advantage,.know-movie{
     h2{
-        height: 86/@rem;
-        line-height: 86/@rem;
+        height: 132/@rem;
+        line-height: 132/@rem;
+        // height: 86/@rem;
+        // line-height: 86/@rem;
         font-size: 40/@rem;
         color: #2a2a2a;
         padding-left: 48/@rem;
@@ -884,6 +1021,8 @@ export default {
 }
 // 顶部banner
 .swiper-pagination-fraction{
+  left: none;
+  right: -22/@rem;
   color: #ffffff;
   text-align: right !important;
 }

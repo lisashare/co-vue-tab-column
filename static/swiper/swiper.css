@@ -219,12 +219,14 @@
   opacity: 0;
 }
 /* Common Styles  更改的样式*/
-.swiper-pagination-fraction span:first-of-type {
+.swiper-pagination-fraction {
   font-size: 0.6rem;
+  bottom: 0.4rem !important;
+  width: 100%;
 }
 .swiper-pagination-fraction span:last-of-type {
-  font-size: 0.48rem;
-  margin-right: 20px;
+  font-size: 0.52rem;
+  margin-right: 0.48rem;
 }
 .swiper-pagination-fraction,
 .swiper-pagination-custom,

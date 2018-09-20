@@ -7,8 +7,7 @@
             </swiper-slide> -->
             <swiper-slide class="swiper" v-for = "(list,index) in lists" :key = "index">
               <div class="video-box" @click="handleVideoClick(index)">
-                  <img width="100%" height="100%" :src="list.coverdUrl" >
-                  <p><img width="100%" src="/static/images/detail/bofang.png"></p>
+                  <div class="video-image"><img width="100%" height="100%" :src="list.coverdUrl"><img class="bofang" src="/static/images/detail/bofang.png"></div>
                   <div class="video-title">产品宣传视频</div>
               </div>
             </swiper-slide>
@@ -32,12 +31,12 @@ export default {
       video: '',
       showVideo: false,
       swiperOption: {
-        slidesPerView: 2,
-        spaceBetween: 22,
-        pagination: {
-          // el: '.swiper-pagination',
-          clickable: true
-        },
+        slidesPerView: 1.2,
+        spaceBetween: 16,
+        // pagination: {
+        //   // el: '.swiper-pagination',
+        //   clickable: true
+        // },
         observeParents: true,
         observer: true,
         // on: {
@@ -62,6 +61,7 @@ export default {
         {id: 2,coverdUrl:'http://static.kuaidao.cn/brand/bhEXjziQQD.jpg'},
         {id: 3,coverdUrl:'http://static.kuaidao.cn/brand/bhEXjziQQD.jpg'},
         {id: 4,coverdUrl:'http://static.kuaidao.cn/brand/bhEXjziQQD.jpg'},
+        {id: 5,coverdUrl:'http://static.kuaidao.cn/brand/bhEXjziQQD.jpg'},
       ]
     }
   },
@@ -100,30 +100,31 @@ export default {
 </script>
 <style lang="less" scoped>
 @rem: 50rem;
+.banner-video{
+  // padding-left: 48/@rem;
+}
 .swiper{
-    width: 340/@rem;
-    // background: #dd0;
-    border-radius: 5px;
-    // margin-right: 22/@rem;
-    height: 200/@rem;
+    width: 621/@rem!important;
+    height: 472/@rem;
     overflow: hidden;
     position: relative;
+    border-radius: 8/@rem;
 }
 .swiperY{
-    margin: 40/@rem 0;
-    padding: 0 24/@rem;
-    height: 200/@rem;
-    // background-image:url();
-    a{
-        display: inline-block;
-        width: 340/@rem;
-        border-radius: 5px;
-        margin-right: 22/@rem;
-        overflow: hidden;
-    }
-    p{
-        width: 72/@rem;
-        height:72/@rem;
+
+  padding-left: 48/@rem;
+}
+.video-box{
+    width: 621/@rem;
+    height: 472/@rem;
+  .video-image{
+    position: relative;
+    width: 621/@rem;
+    height: 356/@rem;
+    .bofang{
+        position: absolute;
+        width: 80/@rem;
+        height:80/@rem;
         position:absolute;
         left: 50%;
         top: 50%;
@@ -131,5 +132,12 @@ export default {
         -ms-transform: translate3d(-50%,-50%,0);
         transform:translate3d(-50%,-50%,0);
     }
+  }
+  .video-title{
+    padding-top: 20/@rem;
+    font-size: 30/@rem;
+    color: #333333;
+    font-weight: 600;
+  }
 }
 </style>

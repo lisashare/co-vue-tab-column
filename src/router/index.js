@@ -7,9 +7,14 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/detail',
       name: 'detail',
-      component: ()=>import('@/pages/detail/Detail')
+      component: ()=>import('@/pages/detail/Detail'),
+      // children:[{
+      //   path: 'images',
+      //   // name: 'images',
+      //   component: ()=>import('@/pages/detail/Images'),
+      // }]
     },
     {
       path: '/iframe',
@@ -17,9 +22,9 @@ export default new Router({
       component: ()=>import('@/pages/iframe/Iframe')
     },
     {
-      path: '/hello',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/images',
+      name: 'images',
+      component: ()=>import('@/pages/detail/Images'),
     }
   ]
 })
