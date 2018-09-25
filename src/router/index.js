@@ -7,7 +7,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/detail',
+      path: '/',
       name: 'detail',
       component: ()=>import('@/pages/detail/Detail'),
       // children:[{
@@ -24,7 +24,7 @@ export default new Router({
     {
       path: '/images',
       name: 'images',
-      component: ()=>import('@/pages/detail/Images'),
+      component: ()=>import('@/pages/images/Images'),
     }
   ]
 })

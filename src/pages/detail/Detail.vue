@@ -2,7 +2,7 @@
     <div class="detail page-top">
         <header-title :title="title"></header-title>    
         <!-- 顶部banner -->
-        <div class="banner-swiper">
+        <div class="banner-swiper" @click="toImages">
             <swiper :options="swiperOption" ref="mySwiper-p1" class="brandImg img-bg">
                 <swiper-slide v-for = "(slide, index) in brandImages" :key = "index">
                     <img :src="slide.imgUrl" width="100%">
@@ -521,6 +521,10 @@ export default {
         // this.initSwiper()
     },
     methods:{
+        toImages(){
+            // 传递id过去
+            this.$router.push('/images')
+        },
         // 点击我的关注
         mineAttention () {
             this.attention = !this.attention
